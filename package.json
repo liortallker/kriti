@@ -1,0 +1,13 @@
+{
+  "name": "kriti",
+  "version": "1.0.0",
+  "description": "Kriti — AI presentation coach for designers: deck review, camera & voice rehearsal analysis, feedback dialog that learns from your ratings.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

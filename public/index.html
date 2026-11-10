@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kriti — Presentation coach for designers</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23ff5a36'/><path d='M20 44V20h6v10l10-10h8L33 31l12 13h-8l-11-12v12z' fill='white'/></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" id="brand" type="button" aria-label="Kriti home">
+      <span class="logo">K</span>
+      <span class="brand-text"><b>Kriti</b><small data-i18n="tagline"></small></span>
+    </button>
+    <nav class="steps" id="steps">
+      <span data-step="setup" data-i18n="step_setup"></span>
+      <span data-step="brief" data-i18n="step_brief"></span>
+      <span data-step="rehearse" data-i18n="step_rehearse"></span>
+      <span data-step="feedback" data-i18n="step_feedback"></span>
+    </nav>
+    <button class="lang" id="langToggle" type="button">EN</button>
+  </header>
+
+  <div id="keyBanner" class="banner hidden" data-i18n="no_key"></div>
+
+  <main>
+    <!-- HOME -->
+    <section class="view" id="view-home">
+      <div class="hero">
+        <h1 data-i18n="hero_title"></h1>
+        <p data-i18n="hero_sub"></p>
+        <button class="btn primary big" id="newSession" data-i18n="new_session"></button>
+      </div>
+      <div class="how">
+        <div><span>1</span><b data-i18n="how1_t"></b><p data-i18n="how1_d"></p></div>
+        <div><span>2</span><b data-i18n="how2_t"></b><p data-i18n="how2_d"></p></div>
+        <div><span>3</span><b data-i18n="how3_t"></b><p data-i18n="how3_d"></p></div>
+        <div><span>4</span><b data-i18n="how4_t"></b><p data-i18n="how4_d"></p></div>
+      </div>
+      <h2 data-i18n="past_sessions"></h2>
+      <div id="sessionList" class="session-list"></div>
+      <div class="learning-box">
+        <div>
+          <b data-i18n="learning_title"></b>
+          <p id="learningInfo"></p>
+        </div>
+        <button class="btn ghost small" id="resetLearning" data-i18n="learning_reset"></button>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section class="view hidden" id="view-setup">
+      <h1 data-i18n="setup_title"></h1>
+      <div class="card grid2">
+        <label><span data-i18n="f_title"></span><input id="sTitle" type="text" /></label>
+        <label><span data-i18n="f_context"></span><input id="sContext" type="text" data-i18n-ph="f_context_ph" /></label>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="upload_title"></h3>
+        <label class="drop" id="drop">
+          <input id="fileInput" type="file" accept="application/pdf,image/png,image/jpeg" multiple hidden />
+          <b data-i18n="upload_cta"></b>
+          <small data-i18n="upload_hint"></small>
+        </label>
+        <div id="uploadStatus" class="muted"></div>
+        <div id="slidesGrid" class="slides-grid"></div>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="focus_title"></h3>
+        <p class="muted" data-i18n="focus_hint"></p>
+        <div id="focusChips" class="chips"></div>
+        <label class="mt"><span data-i18n="focus_custom"></span>
+          <input id="customFocus" type="text" data-i18n-ph="focus_custom_ph" /></label>
+      </div>
+
+      <div class="card grid2">
+        <label><span data-i18n="f_time"></span>
+          <div class="row"><input id="sTime" type="number" min="0" step="0.5" /><span class="muted" data-i18n="minutes"></span></div>
+        </label>
+        <label><span data-i18n="f_speech_lang"></span>
+          <select id="sSpeechLang">
+            <option value="he-IL">עברית</option>
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary big" id="analyzeBtn" data-i18n="analyze"></button>
+      </div>
+    </section>
+
+    <!-- BRIEF -->
+    <section class="view hidden" id="view-brief">
+      <div class="view-head">
+        <h1 data-i18n="brief_title"></h1>
+        <div class="row">
+          <button class="btn ghost" id="backToSetup" data-i18n="edit_setup"></button>
+          <button class="btn primary" id="toRehearse" data-i18n="start_rehearsal"></button>
+        </div>
+      </div>
+      <div id="briefBody"></div>
+    </section>
+
+    <!-- REHEARSE -->
+    <section class="view hidden" id="view-rehearse">
+      <div class="rehearse-bar card">
+        <div class="seg" id="modeSeg">
+          <button data-mode="full" data-i18n="mode_full"></button>
+          <button data-mode="slide" data-i18n="mode_slide"></button>
+        </div>
+        <select id="slidePick" class="hidden"></select>
+        <label class="inline"><span data-i18n="time_this"></span>
+          <input id="rMin" type="number" min="0" max="120" /> :
+          <input id="rSec" type="number" min="0" max="59" />
+        </label>
+        <label class="inline"><input type="checkbox" id="showCues" checked /> <span data-i18n="show_cues"></span></label>
+      </div>
+
+      <div id="goalsBox" class="goals hidden"></div>
+
+      <div class="stage-wrap">
+        <div class="stage">
+          <canvas id="stage" width="1280" height="720"></canvas>
+          <div class="stage-overlay">
+            <div id="recDot" class="rec hidden">● REC</div>
+            <div id="timer" class="timer">00:00</div>
+          </div>
+          <div id="camMsg" class="cam-msg">
+            <p data-i18n="cam_intro"></p>
+            <button class="btn primary" id="camOn" data-i18n="cam_on"></button>
+          </div>
+          <div id="toast" class="toast hidden"></div>
+        </div>
+        <aside class="cues" id="cues">
+          <div class="live" id="live">
+            <div><small data-i18n="live_eye"></small><b id="lvEye">–</b></div>
+            <div><small data-i18n="live_gesture"></small><b id="lvGesture">–</b></div>
+            <div><small data-i18n="live_wpm"></small><b id="lvWpm">–</b></div>
+            <div class="vol"><small data-i18n="live_volume"></small><i><span id="lvVol"></span></i></div>
+          </div>
+          <div id="faceTouch" class="warn hidden" data-i18n="face_touch"></div>
+          <h4><span data-i18n="cues_for"></span> <span id="cueSlideNo"></span></h4>
+          <ul id="cueList"></ul>
+          <div id="caption" class="caption"></div>
+          <div id="visionStatus" class="muted small"></div>
+        </aside>
+      </div>
+
+      <div class="controls">
+        <button class="btn ghost" id="prevSlide" data-i18n="prev"></button>
+        <button class="btn rec-btn" id="recBtn" disabled data-i18n="rec_start"></button>
+        <button class="btn ghost" id="nextSlide" data-i18n="next"></button>
+      </div>
+      <p class="muted center small" data-i18n="keys_hint"></p>
+    </section>
+
+    <!-- PROCESSING -->
+    <section class="view hidden" id="view-processing">
+      <div class="processing">
+        <div class="spinner"></div>
+        <h2 id="procTitle"></h2>
+        <p id="procSub" class="muted"></p>
+      </div>
+    </section>
+
+    <!-- FEEDBACK -->
+    <section class="view hidden" id="view-feedback">
+      <div class="fb-layout">
+        <div class="fb-left">
+          <div class="card">
+            <video id="playback" controls playsinline></video>
+            <div class="row between mt">
+              <span class="muted small" id="attemptLabel"></span>
+              <a class="btn ghost small" id="downloadVideo" download data-i18n="download"></a>
+            </div>
+          </div>
+          <div class="card" id="metricsCard"></div>
+        </div>
+        <div class="fb-right" id="feedbackBody"></div>
+      </div>
+
+      <div class="card chat" id="chatCard">
+        <h3 data-i18n="chat_title"></h3>
+        <div id="chatLog" class="chat-log"></div>
+        <div class="chat-input">
+          <button class="btn ghost icon" id="micBtn" title="mic">🎙</button>
+          <textarea id="chatInput" rows="2" data-i18n-ph="chat_ph"></textarea>
+          <button class="btn primary" id="sendBtn" data-i18n="send"></button>
+        </div>
+        <div class="chat-actions">
+          <button class="btn primary" id="retryBtn" data-i18n="retry"></button>
+          <div id="slideRetryChips" class="chips"></div>
+          <button class="btn ghost" id="finishChat" data-i18n="finish_chat"></button>
+          <button class="btn ghost" id="newFromFb" data-i18n="new_session"></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- rating modal -->
+  <div class="modal hidden" id="rateModal">
+    <div class="modal-card">
+      <h3 data-i18n="rate_title"></h3>
+      <p class="muted" data-i18n="rate_sub"></p>
+      <div class="stars" id="stars"></div>
+      <textarea id="rateNote" rows="3" data-i18n-ph="rate_note_ph"></textarea>
+      <div class="row end">
+        <button class="btn ghost" id="rateSkip" data-i18n="skip"></button>
+        <button class="btn primary" id="rateSave" data-i18n="save"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- next step modal -->
+  <div class="modal hidden" id="nextModal">
+    <div class="modal-card">
+      <h3 data-i18n="next_title"></h3>
+      <div id="nextGoals"></div>
+      <div class="col">
+        <button class="btn primary" id="nextRetry"></button>
+        <button class="btn ghost" id="nextNew" data-i18n="new_session"></button>
+        <button class="btn ghost" id="nextHome" data-i18n="home"></button>
+      </div>
+    </div>
+  </div>
+
+  <video id="cam" playsinline muted autoplay class="hidden-video"></video>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
